@@ -6,16 +6,23 @@ ArrayList<Police> polices = new ArrayList<Police>();
 float worldRecord = 80;
 color BGC = #01000B;
 
+float maxThiefsSize = 500;
+float maxPolicesSize = 10;
+
 void setup(){
   size(1300, 800);
   background(BGC);
-  thiefs.add(new Thief(random(width), random(height)));
-  polices.add(new Police(random(width), random(height)));
+  for(int i = 0; i < 100; i++){
+    thiefs.add(new Thief(random(width), random(height)));
+  }
+  for(int i = 0; i < 2; i++){
+    polices.add(new Police(random(width), random(height)));
+  }
 }
 
 void draw(){
   background(BGC);
-  if(mousePressed){
+  if(thiefs.size() < maxThiefsSize && mousePressed){
     thiefs.add(new Thief(mouseX, mouseY));
   }
 
@@ -59,12 +66,8 @@ void draw(){
   
 }
 
-void mousePressed(){
-  thiefs.add(new Thief(mouseX, mouseY));
-}
-
 void keyPressed(){
-  if((keyPressed == true) && (key == 'r')){
+  if(polices.size() < maxPolicesSize && (keyPressed == true) && (key == 'p')){
     polices.add(new Police(random(width), random(height)));
   }
 }
