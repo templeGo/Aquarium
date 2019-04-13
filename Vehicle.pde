@@ -129,7 +129,7 @@ class Vehicle{
     }
 
     PVector steer = PVector.sub(desired, velocity);
-    steer.limit(maxforce);
+    steer.limit(maxforce*2);
     applyForce(steer);
   }
 }

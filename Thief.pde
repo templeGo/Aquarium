@@ -43,7 +43,7 @@ class Thief extends Vehicle{
         if(d < visibility){
             // 近づくほどspeedを増やす
             float m = map(d,0,visibility,maxspeed,0);
-            target.add(diff.mult(-1));
+            target.add(diff.mult(-m));
         }
         
         return target;
