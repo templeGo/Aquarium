@@ -1,17 +1,15 @@
 class Police extends Vehicle{
-    float boost = 1.2;
-    color c = #FFFFFF;
     Police(float x, float y){
         super(x, y);
         maxforce = 0.1;
+        maxspeed = 4;
         visibility = 150;
+        boost = 2;
+        c = #FFFFFF;
     }
 
     void update(){
-        velocity.add(acceleration);
-        velocity.limit(maxspeed);
-        location.add(velocity.mult(boost));
-        acceleration.mult(0);
+        super.update();
     }
 
     void applyForce(PVector force){
@@ -52,18 +50,7 @@ class Police extends Vehicle{
     }
 
     void display(){
-        float theta = velocity.heading() + PI/2;
-        fill(c);
-        noStroke();
-        pushMatrix();
-        translate(location.x,location.y);
-        rotate(theta);
-        beginShape();
-        vertex(0, -r*2);
-        vertex(-r, r*2);
-        vertex(r, r*2);
-        endShape(CLOSE);
-        popMatrix();
+        super.display();
     }
 
     void displayVisibility(float visibility){

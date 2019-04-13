@@ -3,21 +3,29 @@ class Vehicle{
   PVector velocity;
   PVector acceleration;
   float r;
+  color c;
   float maxspeed;
   float maxforce;
   float visibility;
+  float boost;
 
   Vehicle(float x, float y){
     acceleration = new PVector(random(-1, 1), random(-1, 1));
     velocity = new PVector(0, 0);
     location = new PVector(x, y);
-    r = 3.0;
-    maxspeed = 4;
+    r = 2.0;
+    maxspeed = 2;
     maxforce = 0.1;
+    boost = 1.5;
   }
 
   void update(){
-    
+    // applyforceのsteerに制限をかけているため、十分な大きさのvelocityが得られない。毎回基本サイズに調整が必要。
+    velocity.normalize().mult(boost);
+    velocity.add(acceleration);
+    velocity.limit(maxspeed);
+    location.add(velocity);
+    acceleration.mult(0);
   }
 
   void applyForce(PVector force){
@@ -34,17 +42,14 @@ class Vehicle{
   }
 
   PVector randomWalk(){
-    PVector currentVelocity = velocity;
-
-    currentVelocity.normalize();
-    PVector predictLocation = PVector.add(location, currentVelocity.mult(2));
+    PVector currentVelocity = new PVector(velocity.x, velocity.y);
+    PVector predictLocation = PVector.add(location, currentVelocity);
 
     // randomWalkする
     PVector randomVector = PVector.random2D();
-    float r = 3;
-    randomVector.setMag(r);
-
     PVector target = predictLocation.add(randomVector);
+    // PVector target = predictLocation;
+
 
     return target;
   }
@@ -54,7 +59,19 @@ class Vehicle{
   }
 
   void display() {
-    
+    float theta = velocity.heading() + PI/2;
+    fill(c);
+    noStroke();
+    pushMatrix();
+    translate(location.x,location.y);
+    rotate(theta);
+    beginShape();
+    vertex(0, -r*2);
+    vertex(-r, r*2);
+    vertex(0, r*3);
+    vertex(r, r*2);
+    endShape(CLOSE);
+    popMatrix();
   }
 
   void displayVisibility(float visibility){

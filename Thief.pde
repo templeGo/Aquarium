@@ -1,24 +1,20 @@
 class Thief extends Vehicle{
-    color c = #034DFF;
     boolean isDead = false;
-    float boost = 1;
 
     Thief(float x, float y){
         super(x, y);
         maxforce = 0.22;
         visibility = 230;
-        if(random(1) < 0.01){
-            boost = 2.2;
-            visibility = 100;
-            c = #6800C7;
-        }
+        c = #034DFF;
+        // if(random(1) < 0.01){
+        //     boost = 2.2;
+        //     visibility = 100;
+        //     c = #6800C7;
+        // }
     }
 
     void update(){
-        velocity.add(acceleration);
-        velocity.limit(maxspeed);
-        location.add(velocity.mult(boost));
-        acceleration.mult(0);
+        super.update();
     }
 
     void applyForce(PVector force){
@@ -54,10 +50,17 @@ class Thief extends Vehicle{
     }
 
     void Autopsy(float d){
-        float deadLine = 3;
+        float deadLine = 4;
         if(d < deadLine){
             isDead = true;
         }
+    }
+
+    void flock(ArrayList<Thief> thiefs) {
+        separate(thiefs);
+        align(thiefs); 
+        // separateの効果が薄れるためcohesionコメントアウト
+        // cohesion(thiefs);
     }
 
     void separate(ArrayList<Thief> thiefs){
@@ -65,40 +68,66 @@ class Thief extends Vehicle{
         PVector sum = new PVector();
         int count = 0;
         for(Thief other : thiefs){
-        float d = PVector.dist(location, other.location);
-        if((d > 0) && (d < desiredseparation)){
-            PVector diff = PVector.sub(location, other.location);
-            diff.normalize();
-            diff.div(d);
-            sum.add(diff);
-            count++;
-        }
+            float d = PVector.dist(location, other.location);
+            if((d > 0) && (d < desiredseparation)){
+                PVector diff = PVector.sub(location, other.location);
+                diff.normalize();
+                diff.div(d);
+                sum.add(diff);
+                count++;
+            }
         }
 
         if(count > 0){
-        sum.div(count);
-        sum.normalize();
-        sum.mult(maxspeed);
-        PVector steer = PVector.sub(sum, velocity); 
-        steer.limit(maxforce); 
-        applyForce(steer);
+            sum.div(count);
+            sum.normalize();
+            sum.mult(maxspeed);
+            PVector steer = PVector.sub(sum, velocity); 
+            steer.limit(maxforce);
+            applyForce(steer);
+        }
+    }
+
+    void align(ArrayList<Thief> thiefs){
+        float neighbordist = r*20;
+        PVector sum = new PVector();
+        int count = 0;
+        for (Thief other : thiefs) {
+            float d = PVector.dist(location, other.location);
+            if ((d > 0) && (d < neighbordist)) {
+                sum.add(other.velocity);
+                count++;
+            }
+        }
+        if (count > 0) {
+            sum.div((float)count);
+            sum.normalize();
+            sum.mult(maxspeed);
+            PVector steer = PVector.sub(sum, velocity);
+            steer.limit(maxforce);
+            applyForce(steer);
+        }
+    }
+
+    void cohesion(ArrayList<Thief> thiefs){
+        float neighbordist = r*10;
+        PVector sum = new PVector();
+        int count = 0;
+        for (Thief other : thiefs) {
+            float d = PVector.dist(location, other.location);
+            if ((d > 0) && (d < neighbordist)) {
+                sum.add(other.location);
+                count++;
+            }
+        }
+        if (count > 0) {
+            sum.div(count);
+            seek(sum);
         }
     }
 
     void display(){
-        float theta = velocity.heading() + PI/2;
-        fill(c);
-        noStroke();
-        pushMatrix();
-        translate(location.x,location.y);
-        rotate(theta);
-        beginShape();
-        vertex(0, -r*2);
-        vertex(-r, r*2);
-        vertex(0, r*3);
-        vertex(r, r*2);
-        endShape(CLOSE);
-        popMatrix();
+        super.display();
     }
 
     void displayVisibility(float visibility){

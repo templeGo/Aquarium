@@ -26,7 +26,7 @@ void draw(){
     for(Police police : polices){
       target.add(thief.predictTarget(police));
     }
-    thief.separate(thiefs);
+    thief.flock(thiefs);
     thief.seek(target);
     thief.update();
     thief.keepAwayFromWall(50);
@@ -66,12 +66,5 @@ void mousePressed(){
 void keyPressed(){
   if((keyPressed == true) && (key == 'r')){
     polices.add(new Police(random(width), random(height)));
-    //for(Police police : polices){
-    //  police.displayVisibility(police.visibility);
-    //}
-
-    //for(Thief thief : thiefs){
-    //  thief.displayVisibility(thief.visibility);
-    //}
   }
 }
