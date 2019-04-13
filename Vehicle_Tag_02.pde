@@ -15,7 +15,7 @@ void setup(){
   for(int i = 0; i < 100; i++){
     thiefs.add(new Thief(random(width), random(height)));
   }
-  for(int i = 0; i < 2; i++){
+  for(int i = 0; i < 3; i++){
     polices.add(new Police(random(width), random(height)));
   }
 }
@@ -36,7 +36,7 @@ void draw(){
     thief.flock(thiefs);
     thief.seek(target);
     thief.update();
-    thief.keepAwayFromWall(50);
+    thief.keepAwayFromWall(random(30, 35));
     thief.bounceOffwall();
     thief.display();
 
@@ -57,7 +57,7 @@ void draw(){
     police.separate(polices);
     police.seek(target);
     police.update();
-    police.keepAwayFromWall(50);
+    police.keepAwayFromWall(20);
     police.bounceOffwall();
     police.display();
 
