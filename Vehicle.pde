@@ -13,7 +13,7 @@ class Vehicle{
     acceleration = new PVector(random(-1, 1), random(-1, 1));
     velocity = new PVector(0, 0);
     location = new PVector(x, y);
-    r = 2.0;
+    r = 2.5;
     maxspeed = 2;
     maxforce = 0.1;
     boost = 1.5;

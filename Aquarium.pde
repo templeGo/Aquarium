@@ -10,9 +10,10 @@ float maxThiefsSize = 500;
 float maxPolicesSize = 10;
 
 void setup(){
-  size(1300, 800);
+  //size(1300, 800);
+  fullScreen();
   background(BGC);
-  for(int i = 0; i < 100; i++){
+  for(int i = 0; i < 200; i++){
     thiefs.add(new Thief(random(width), random(height)));
   }
   for(int i = 0; i < 3; i++){
@@ -64,6 +65,17 @@ void draw(){
     worldRecord = police.visibility;
   }
   
+  drawFrame(30);
+}
+
+void drawFrame(float offset){
+  pushMatrix();
+  translate(width/2, height/2);
+  noFill();
+  stroke(#FFFFFF, 70);
+  rectMode(CENTER);
+  rect(0, 0, width-offset*2, height-offset*2);
+  popMatrix();
 }
 
 void keyPressed(){
