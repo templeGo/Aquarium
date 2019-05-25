@@ -3,6 +3,8 @@ import java.util.Iterator;
 ArrayList<Thief> thiefs = new ArrayList<Thief>();
 ArrayList<Police> polices = new ArrayList<Police>();
 
+ArrayList<Soul> souls = new ArrayList<Soul>();
+
 float worldRecord = 80;
 color BGC = #01000B;
 
@@ -43,6 +45,7 @@ void draw(){
 
     if(thief.isDead){
       it.remove();
+      souls.add(new Soul(thief.location.x, thief.location.y));
     }
   }
 
@@ -65,8 +68,22 @@ void draw(){
 
     worldRecord = police.visibility;
   }
+
+  drawDisappearingSouls();
   
   drawFrame(30);
+}
+
+void drawDisappearingSouls(){
+  Iterator<Soul> it = souls.iterator();
+  while(it.hasNext()){
+    Soul soul = it.next();
+    soul.update();
+    soul.display();
+    if(soul.isDead){
+      it.remove();
+    }
+  }
 }
 
 void drawFrame(float offset){
