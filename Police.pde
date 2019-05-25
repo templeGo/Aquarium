@@ -24,6 +24,23 @@ class Police extends Vehicle{
         return super.randomWalk();
     }
 
+    PVector avoidMouse(PVector mouse){
+        PVector target = new PVector();
+
+        // police->mouse
+        PVector diff = PVector.sub(mouse, location);
+        // mouseとの距離
+        float d = diff.mag();
+
+        int avoidRange = 20;
+        
+        if(d < avoidRange){
+            target.add(diff.mult(-maxspeed)).mult(1);
+        }
+        
+        return target;
+    }
+
     void separate(ArrayList<Police> polices){
         float desiredseparation = r*10;
         PVector sum = new PVector();

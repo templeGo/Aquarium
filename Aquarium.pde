@@ -52,9 +52,10 @@ void draw(){
       float distance = PVector.sub(thief.location, police.location).mag();
       if(distance < worldRecord){
         worldRecord = distance;
-        target = thief.location;
+        target = new PVector(thief.location.x, thief.location.y);
       }
     }
+    target.add(police.avoidMouse(new PVector(mouseX, mouseY)));
     police.separate(polices);
     police.seek(target);
     police.update();
@@ -76,6 +77,15 @@ void drawFrame(float offset){
   rectMode(CENTER);
   rect(0, 0, width-offset*2, height-offset*2);
   popMatrix();
+
+
+  // // mouseのフレーム
+  // pushMatrix();
+  // translate(mouseX, mouseY);
+  // noFill();
+  // stroke(#FFFFFF, 70);
+  // ellipse(0, 0, 20, 20);
+  // popMatrix();
 }
 
 void keyPressed(){
