@@ -35,7 +35,7 @@ class Police extends Vehicle{
         int avoidRange = 20;
         
         if(d < avoidRange){
-            target.add(diff.mult(-maxspeed)).mult(1);
+            target.add(diff.mult(-maxspeed)).mult(2);
         }
         
         return target;

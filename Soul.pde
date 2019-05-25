@@ -1,6 +1,6 @@
 class Soul{
     PVector location;
-    float size;
+    int size;
     int life;
     boolean isDead = false;
 
