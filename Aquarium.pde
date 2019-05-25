@@ -8,7 +8,7 @@ ArrayList<Soul> souls = new ArrayList<Soul>();
 float worldRecord = 80;
 color BGC = #01000B;
 
-float maxThiefsSize = 500;
+float maxThiefsSize = 200;
 float maxPolicesSize = 10;
 
 void setup(){
@@ -25,10 +25,17 @@ void setup(){
 
 void draw(){
   background(BGC);
-  if(thiefs.size() < maxThiefsSize && mousePressed){
-    thiefs.add(new Thief(mouseX, mouseY));
-  }
 
+  drawThiefs();
+
+  drawPolices();
+
+  drawDisappearingSouls();
+  
+  drawFrame(30);
+}
+
+void drawThiefs(){
   Iterator<Thief> it = thiefs.iterator();
   while(it.hasNext()){
     Thief thief = it.next();
@@ -48,7 +55,9 @@ void draw(){
       souls.add(new Soul(thief.location.x, thief.location.y));
     }
   }
+}
 
+void drawPolices(){
   for(Police police : polices){
     PVector target = police.randomWalk();
     for(Thief thief : thiefs){
@@ -68,10 +77,6 @@ void draw(){
 
     worldRecord = police.visibility;
   }
-
-  drawDisappearingSouls();
-  
-  drawFrame(30);
 }
 
 void drawDisappearingSouls(){
@@ -95,7 +100,6 @@ void drawFrame(float offset){
   rect(0, 0, width-offset*2, height-offset*2);
   popMatrix();
 
-
   // // mouseのフレーム
   // pushMatrix();
   // translate(mouseX, mouseY);
@@ -103,6 +107,12 @@ void drawFrame(float offset){
   // stroke(#FFFFFF, 70);
   // ellipse(0, 0, 20, 20);
   // popMatrix();
+}
+
+void mouseDragged(){
+  if(thiefs.size() < maxThiefsSize){
+    thiefs.add(new Thief(mouseX, mouseY));
+  }
 }
 
 void keyPressed(){
