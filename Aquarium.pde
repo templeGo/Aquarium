@@ -12,7 +12,7 @@ float maxThiefsSize = 200;
 float maxPolicesSize = 10;
 
 void setup(){
-  //size(1300, 800);
+  // size(1300, 800);
   fullScreen();
   background(BGC);
   for(int i = 0; i < 200; i++){
@@ -104,7 +104,7 @@ void drawFrame(float offset){
   // pushMatrix();
   // translate(mouseX, mouseY);
   // noFill();
-  // stroke(#FFFFFF, 70);
+  // stroke(#FFFFFF);
   // ellipse(0, 0, 20, 20);
   // popMatrix();
 }
